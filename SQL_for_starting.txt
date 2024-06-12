@@ -1,0 +1,67 @@
+CREATE DATABASE BankingSystem;
+GO
+
+USE BankingSystem;
+GO
+
+CREATE TABLE Users (
+	Id int IDENTITY(1,1) PRIMARY KEY,
+	FirstName varchar(45) NOT NULL,
+	Email nvarchar(80) NOT NULL
+	INDEX IX_Users_Email NONCLUSTERED(Email)
+);
+GO
+
+CREATE TABLE Accounts (
+	Id int IDENTITY(1,1) PRIMARY KEY,
+	AccountNumber NVARCHAR(20) NOT NULL,
+	Balance DECIMAL(18,2) NOT NULL,
+	UserId int NOT NULL,
+	FOREIGN KEY (UserId) REFERENCES Users(Id),
+	INDEX IX_Accounts_UserId NONCLUSTERED (UserId)
+);
+GO
+
+CREATE TABLE Transactions (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    Amount DECIMAL(18, 2) NOT NULL,
+    SourceAccountId int NOT NULL,
+    DestinationAccountId int NOT NULL,
+    TransactionDate DATETIME NOT NULL,
+    FOREIGN KEY (SourceAccountId) REFERENCES Accounts(Id),
+    FOREIGN KEY (DestinationAccountId) REFERENCES Accounts(Id),
+	INDEX IX_Transactions_SourceAccountId NONCLUSTERED (SourceAccountId)
+);
+GO
+
+CREATE PROCEDURE sp_CreateUser
+@FirstName varchar(45), @Email nvarchar(80)
+AS
+BEGIN
+INSERT INTO Users (FirstName, Email)
+VALUES (@FirstName, @Email);
+END;
+GO
+
+CREATE PROCEDURE sp_CreateAccount
+	@AccountNumber NVARCHAR(20),
+	@Balance DECIMAL(18,2),
+	@UserId int
+AS
+BEGIN
+	INSERT INTO Accounts (AccountNumber, Balance, UserId)
+	VALUES (@AccountNumber, @Balance, @UserId);
+END;
+GO
+
+CREATE PROCEDURE sp_CreateTransaction
+	@Amount DECIMAL(18, 2),
+	@SourceAccountId int,
+	@DestinationAccountId int,
+	@TransactionDate DATETIME
+AS
+BEGIN
+	INSERT INTO Transactions (Amount, SourceAccountId, DestinationAccountId, TransactionDate)
+	VALUES (@Amount, @SourceAccountId, @DestinationAccountId, @TransactionDate);
+END;
+GO

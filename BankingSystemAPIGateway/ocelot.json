@@ -1,0 +1,21 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7118"
+
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/lalala/bababa",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/home/get",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7105
+
+        }
+      ]
+    }
+  ]
+}
