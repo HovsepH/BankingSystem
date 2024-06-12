@@ -23,6 +23,5 @@ namespace AccountService.Application.Interfaces
         public Task DeleteAccountAsync(object id);
 
         public Task UpdateAccountAsync(Account entityToUpdate);
-
     }
 }

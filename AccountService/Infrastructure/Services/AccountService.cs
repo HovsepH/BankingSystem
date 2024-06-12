@@ -1,5 +1,7 @@
 ﻿using AccountService.Application.Interfaces;
 using AccountService.Domain.Entities;
+using AccountService.Presentation.ViewModels;
+using AutoMapper;
 
 namespace AccountService.Infrastructure.Services
 {
@@ -8,13 +10,18 @@ namespace AccountService.Infrastructure.Services
 
         private readonly IAccountRepository _accountRepository;
 
-        public AccountService(IAccountRepository accountRepository)
+        private readonly IMapper _mapper;
+        public AccountService(IAccountRepository accountRepository, IMapper mapper)
         {
             _accountRepository = accountRepository;
+            _mapper = mapper;
+
         }
 
-        public async Task CreateAccountAsync(Account account)
+        public async Task CreateAccountAsync(AccountRequestViewModel accountDTO)
         {
+            var account = _mapper.Map<Account>(accountDTO);
+
             if (account is null)
             {
                 throw new ArgumentNullException(nameof(account), "Account cannot be null.");
@@ -47,7 +54,7 @@ namespace AccountService.Infrastructure.Services
             }
         }
 
-        public async Task<Account> GetAccountByIdAsync(int id)
+        public async Task<AccountResponseViewModel> GetAccountByIdAsync(int id)
         {
             if (id <= 0)
             {
@@ -56,7 +63,9 @@ namespace AccountService.Infrastructure.Services
 
             try
             {
-                return await _accountRepository.GetAccountByIDAsync(id);
+                Account account= await _accountRepository.GetAccountByIDAsync(id);
+
+                return _mapper.Map<AccountResponseViewModel>(account);
             }
             catch (Exception ex)
             {
@@ -81,8 +90,10 @@ namespace AccountService.Infrastructure.Services
             }
         }
 
-        public async Task UpdateAccountAsync(Account account)
+        public async Task UpdateAccountAsync(AccountRequestViewModel accountDTO)
         {
+            var account=_mapper.Map<Account>(accountDTO);
+
             if (account is null)
             {
                 throw new ArgumentNullException(nameof(account), "Account cannot be null.");

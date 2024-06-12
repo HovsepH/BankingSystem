@@ -2,10 +2,11 @@
 using AccountService.Application.Interfaces;
 using AccountService.Application.Queries;
 using AccountService.Domain.Entities;
+using AccountService.Presentation.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AccountService.Controllers
+namespace AccountService.Presentation.Controllers
 {
 
     [ApiController]
@@ -23,7 +24,7 @@ namespace AccountService.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateAccountAsync([FromBody] Account account)
+        public async Task<IActionResult> CreateAccountAsync([FromBody] AccountRequestViewModel accountDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -31,7 +32,7 @@ namespace AccountService.Controllers
             }
             try
             {
-                await _mediator.Send(new CreateAccountCommand(account));
+                await _mediator.Send(new CreateAccountCommand(accountDTO));
                 return Ok();
             }
             catch (Exception ex)
@@ -46,12 +47,12 @@ namespace AccountService.Controllers
         {
             try
             {
-                var account = await _mediator.Send(new GetAccountByIdQuery(id));
-                if (account == null)
+                var accountDTO = await _mediator.Send(new GetAccountByIdQuery(id));
+                if (accountDTO == null)
                 {
                     return NotFound();
                 }
-                return Ok(account);
+                return Ok(accountDTO);
             }
             catch (Exception ex)
             {
@@ -79,7 +80,7 @@ namespace AccountService.Controllers
 
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateAccountAsync([FromBody] Account account)
+        public async Task<IActionResult> UpdateAccountAsync([FromBody] AccountRequestViewModel accountDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -87,13 +88,13 @@ namespace AccountService.Controllers
             }
             try
             {
-                await _mediator.Send(new UpdateAccountQommand(account));
+                await _mediator.Send(new UpdateAccountQommand(accountDTO));
                 return Ok("Account updated successfully.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to update account with ID: {account.Id}");
-                return StatusCode(500, $"Failed to update account with ID: {account.Id}. Please try again later.");
+                _logger.LogError(ex, $"Failed to update account with ID: {accountDTO.Id}");
+                return StatusCode(500, $"Failed to update account with ID: {accountDTO.Id}. Please try again later.");
             }
         }
 

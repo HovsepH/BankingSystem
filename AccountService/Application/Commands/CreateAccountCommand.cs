@@ -1,8 +1,9 @@
 ﻿using AccountService.Domain.Entities;
+using AccountService.Presentation.ViewModels;
 using MediatR;
 
 namespace AccountService.Application.Commands
 {
-    public record CreateAccountCommand(Account account) : IRequest;
+    public record CreateAccountCommand(AccountRequestViewModel account) : IRequest;
 
 }

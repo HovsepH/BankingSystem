@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Transactions;
 
-namespace AccountService.Domain.Entities
+namespace AccountService.Presentation.ViewModels
 {
-    public class Account
+    public class AccountResponseViewModel
     {
         public int Id { get; set; }
 
@@ -12,7 +11,5 @@ namespace AccountService.Domain.Entities
         public decimal Balance { get; set; }
 
         public int UserId { get; set; }
-
     }
-
 }
