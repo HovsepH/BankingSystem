@@ -63,7 +63,7 @@ namespace AccountService.Infrastructure.Services
 
             try
             {
-                Account account= await _accountRepository.GetAccountByIDAsync(id);
+                Account account = await _accountRepository.GetAccountByIDAsync(id);
 
                 return _mapper.Map<AccountResponseViewModel>(account);
             }
@@ -92,7 +92,7 @@ namespace AccountService.Infrastructure.Services
 
         public async Task UpdateAccountAsync(AccountRequestViewModel accountDTO)
         {
-            var account=_mapper.Map<Account>(accountDTO);
+            var account = _mapper.Map<Account>(accountDTO);
 
             if (account is null)
             {

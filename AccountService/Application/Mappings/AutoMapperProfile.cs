@@ -9,7 +9,8 @@ namespace AccountService.Application.Mappings
         public AutoMapperProfile()
         {
             CreateMap<Account, AccountResponseViewModel>().ReverseMap();
-            CreateMap<Account, AccountResponseViewModel>().ReverseMap();
+
+            CreateMap<Account, AccountRequestViewModel>().ReverseMap();
         }
 
     }
