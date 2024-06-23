@@ -15,8 +15,27 @@
 
 
     <style>
+        .welcome {
+            position: absolute;
+            top: 120px; /* Adjust as needed for vertical positioning */
+            left: 3%; /* Adjust as needed for horizontal positioning */
+            font-size: 30px; /* Adjust font size as needed */
+            color: #00ffcc; /* Neon text color */
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+
+        .paragraph {
+            font-size: 28px;
+        }
+
         .navbar {
             height: 45px;
+        }
+
+       
+        .about-text {
+            color: white;
         }
 
         .navbar-brand, .nav-link {
@@ -77,17 +96,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Login</a>
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Register</a>
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
                         </li>
+
                     </ul>
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">About</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </nav>

@@ -1,0 +1,51 @@
+﻿@model CombinedDataModel
+@{
+    ViewData["Title"] = "INNOVATIVE BANK | UserDashboard";
+}
+
+
+<h1>Hi @Model.Name</h1>
+<h2>Accounts</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Account Number</th>
+            <th>Balance</th>
+            <th>User ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var account in Model.AccountService)
+        {
+            <tr>
+                <td>@account.AccountNumber</td>
+                <td>@account.Balance</td>
+                <td>@account.UserId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Transactions</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Amount</th>
+            <th>Source Account ID</th>
+            <th>Destination Account ID</th>
+            <th>Transaction Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.TransactionService)
+        {
+            <tr>
+                <td>@transaction.Amount</td>
+                <td>@transaction.SourceAccountId</td>
+                <td>@transaction.DestinationAccountId</td>
+                <td>@transaction.TransactionDate</td>
+            </tr>
+        }
+    </tbody>
+</table>

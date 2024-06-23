@@ -4,11 +4,19 @@ using AccountService.Application.Interfaces;
 using AccountService.Infrastructure.Data;
 using AccountService.Infrastructure.Repositories;
 using FluentValidation;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug() // Set the minimum log level
+    .Enrich.FromLogContext()
+    .WriteTo.Console() // Add console sink
+    .WriteTo.Seq("http://localhost:5341") // Add Seq sink
+    .CreateLogger();
 // Add services to the container.
+builder.Host.UseSerilog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

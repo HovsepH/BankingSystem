@@ -9,10 +9,14 @@ namespace AccountService.Application.Interfaces
 
         public Task<AccountResponseViewModel> GetAccountByIdAsync(int id);
 
+        public Task<List<AccountResponseViewModel>> GetAccountsByUserIdAsync(string id);
+       
         public Task TransferAsync(int sourceAccountId, int destinationAccountId, decimal amount);
 
         public Task UpdateAccountAsync(AccountRequestViewModel account);
 
         public Task DeleteAccountAsync(int id);
+
+
     }
 }

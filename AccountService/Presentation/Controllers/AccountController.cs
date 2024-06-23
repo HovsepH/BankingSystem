@@ -6,13 +6,14 @@ using AccountService.Presentation.ViewModels;
 using Azure.Core;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountService.Presentation.Controllers
 {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("/api/account")]
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
@@ -26,6 +27,8 @@ namespace AccountService.Presentation.Controllers
             _mediator = mediator;
         }
 
+      
+      
         [HttpPost("Create")]
         public async Task<IActionResult> CreateAccountAsync([FromBody] AccountRequestViewModel accountDTO)
         {
@@ -34,7 +37,7 @@ namespace AccountService.Presentation.Controllers
             return Ok();
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetAccountByIdAsync(int id)
         {
             var accountDTO = await _mediator.Send(new GetAccountByIdQuery(id));
@@ -45,6 +48,20 @@ namespace AccountService.Presentation.Controllers
             }
 
             return Ok(accountDTO);
+        }
+
+
+        [HttpGet("get-by-user-id/{id}")]
+        public async Task<IActionResult> GetAccountsByUserIdAsync(string id)
+        {
+            List<AccountResponseViewModel> accountDTOs = await _mediator.Send(new GetAccountsByUserIdQuery(id));
+
+            if (accountDTOs == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(accountDTOs);
         }
 
 

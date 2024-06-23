@@ -119,7 +119,7 @@ namespace AccountService.Infrastructure.Repositories
 
             string query = "SELECT * FROM Accounts WHERE Id = @Id";
 
-            using (var connection = (SqlConnection)_connectionFactory.GetMyDBConnection() )
+            using (var connection = (SqlConnection)_connectionFactory.GetMyDBConnection())
             {
                 await connection.OpenAsync();
 
@@ -145,7 +145,7 @@ namespace AccountService.Infrastructure.Repositories
 
                             Balance = reader.GetDecimal(reader.GetOrdinal("Balance")),
 
-                            UserId = reader.GetInt32(reader.GetOrdinal("UserId"))
+                            UserId = reader.GetString(reader.GetOrdinal("UserId"))
                         };
                     }
                 }
@@ -250,6 +250,54 @@ namespace AccountService.Infrastructure.Repositories
                 {
                     throw new Exception("Error occurred while updating the account", ex);
                 }
+            }
+        }
+
+        public async Task<List<Account>> GetAccountsByUserIdAsync(object obj)
+        {
+            if (obj is null)
+            {
+                throw new ArgumentException("Id can't be null");
+            }
+
+            string UserId = obj.ToString();
+
+            string query = "SELECT * FROM Accounts WHERE UserId = @UserId";
+
+            using (var connection = (SqlConnection)_connectionFactory.GetMyDBConnection())
+            {
+                await connection.OpenAsync();
+
+                var cmd = connection.CreateCommand();
+
+                cmd.CommandText = query;
+
+                cmd.CommandType = CommandType.Text;
+
+                cmd.Parameters.Add(new SqlParameter("@UserId", UserId));
+
+                List<Account> accounts = new List<Account>();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        Account account = new Account
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+
+                            AccountNumber = reader.GetString(reader.GetOrdinal("AccountNumber")),
+
+                            Balance = reader.GetDecimal(reader.GetOrdinal("Balance")),
+
+                            UserId = reader.GetString(reader.GetOrdinal("UserId"))
+                        };
+                        accounts.Add(account);
+                    }
+
+                }
+
+                return accounts;
             }
         }
     }

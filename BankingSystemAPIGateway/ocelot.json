@@ -1,21 +1,43 @@
 {
-  "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7118"
-
-  },
   "Routes": [
     {
-      "UpstreamPathTemplate": "/lalala/bababa",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/home/get",
+      "DownstreamPathTemplate": "/api/account/get-by-user-id/{Id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7105
-
+          "Port": 5001
         }
-      ]
+      ],
+      "UpstreamPathTemplate": "/accout/get/{Id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "AccountService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/transaction/get-by-user-id/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/transaction/get/{Id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "TransactionService"
     }
-  ]
+  ],
+  "Aggregates": [
+    {
+      "RouteKeys": [
+        "AccountService",
+        "TransactionService"
+      ],
+      "UpstreamPathTemplate": "/combined-data/{Id}"
+     
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5003"
+  }
 }

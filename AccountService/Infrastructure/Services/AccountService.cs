@@ -73,6 +73,25 @@ namespace AccountService.Infrastructure.Services
             }
         }
 
+        public async Task<List<AccountResponseViewModel>> GetAccountsByUserIdAsync(string id)
+        {
+            if (id is null)
+            {
+                throw new ArgumentNullException(nameof(id), "Id can't be null");
+            }
+
+            try
+            {
+                List<Account> account = await _accountRepository.GetAccountsByUserIdAsync(id);
+
+                return _mapper.Map<List<AccountResponseViewModel>>(account);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to get account: {id}", ex);
+            }
+        }
+
         public async Task TransferAsync(int sourceAccountId, int destinationAccountId, decimal amount)
         {
             if (sourceAccountId <= 0 || destinationAccountId <= 0 || amount <= 0)
