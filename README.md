@@ -1,7 +1,7 @@
 # Simple Banking System
 
 ## Overview
-This project is a comprehensive banking system developed using ASP.NET Core. It features a client MVC application, an Ocelot API Gateway, and two well-implemented microservices: Account Service and Transaction Service. The project is ongoing and aims to provide a robust and scalable solution for banking operations.
+This project is a comprehensive banking system developed using ASP.NET Core. It features a client MVC application, an Ocelot API Gateway, and two  microservices: Account Service(well-implemented) and Transaction Service(ongoing). The project is ongoing and aims to provide a robust and scalable solution for banking operations.
 
 ## Features
 - **Client MVC Application**: Frontend interface for interacting with the banking system.
